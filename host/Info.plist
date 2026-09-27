@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  这份 Info.plist 由 build.rs 通过
+  -Wl,-sectcreate,__TEXT,__info_plist,Info.plist 嵌入二进制本体，
+  目的是让 `cargo run` 出来的裸可执行文件也能正常申请权限。
+
+  为什么必须嵌入：macOS 的 TCC 在读不到 NSScreenCaptureUsageDescription 时，
+  弹出的授权对话框会把 App 直接终止（而不是"拒绝"）。裸二进制没有 bundle，
+  只能靠这个嵌入的 __TEXT/__info_plist 段提供用途说明。
+
+  打包成 .app 时以 package_macos.sh 生成的 Contents/Info.plist 为准，
+  两份内容保持一致即可。
+-->
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>Dashboard</string>
+    <key>CFBundleDisplayName</key>
+    <string>仪表盘上位机</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.local.dashboard-host</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>0.1.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>13.0</string>
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    <key>NSPrincipalClass</key>
+    <string>NSApplication</string>
+    <!-- 频谱功能要抓系统音频，这是 ScreenCaptureKit 唯一的授权入口。
+         缺了它，触发 TCC 提示时程序会被系统终止（不是简单拒绝）。 -->
+    <key>NSScreenCaptureUsageDescription</key>
+    <string>需要「屏幕与系统音频录制」权限，把 Mac 正在播放的音乐转成频谱显示到灯阵上。不会录制或保存任何画面。</string>
+</dict>
+</plist>

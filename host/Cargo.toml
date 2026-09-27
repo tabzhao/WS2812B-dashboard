@@ -1,0 +1,24 @@
+[package]
+name = "dashboard_host"
+version = "0.1.0"
+edition = "2024"
+authors = ["dashboard host"]
+
+[dependencies]
+gpui = "0.2.2"
+sysinfo = "0.32"
+mdns-sd = "0.20"
+rustfft = "6.2"
+
+# 系统音频采集：只用 SCK，不需要用户装 BlackHole 之类的虚拟声卡
+[target.'cfg(target_os = "macos")'.dependencies]
+screencapturekit = "10"
+
+# 菜单栏常驻图标：gpui 0.2 没有 NSStatusItem 的封装，只能自己发 AppKit 消息。
+# 版本与 screencapturekit 依赖的 objc2 保持一致，避免编译两份。
+objc2 = "0.6"
+objc2-foundation = "0.3"
+raw-window-handle = "0.6"
+
+[profile.release]
+opt-level = 2

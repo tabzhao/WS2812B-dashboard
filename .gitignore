@@ -1,0 +1,31 @@
+# PlatformIO
+.pio/
+.pioenvs/
+.piolibdeps/
+.vscode/
+.clang_complete
+.gdbinit
+.platformio/
+
+# macOS
+.DS_Store
+._*
+
+# 构建产物
+*.bin
+*.elf
+
+# 打包出来的 .app（内含编译好的二进制与 ad-hoc 签名，不进仓库）
+host/Dashboard.app/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# 本地工作记忆 / 编辑器辅助数据（含本机 MAC、串口号等私有信息）
+.workbuddy/
+
+# 本地网络凭据（模板见 firmware/include/secrets.example.h）
+firmware/include/secrets.h
+firmware/include/secrets.local.h
